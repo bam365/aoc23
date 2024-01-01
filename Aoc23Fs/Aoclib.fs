@@ -18,6 +18,36 @@ let readChars () = readStr () |> Seq.toList
 
 let seqSum (xs: seq<int>)= Seq.fold (fun acc v -> acc + v) 0 xs
 
+
+module Monoid =
+    type 'a t = {
+        Empty: 'a
+        Append: 'a -> 'a -> 'a
+    }
+
+    let sum = {
+        Empty = 0;
+        Append = (+)
+    }
+
+    let list = {
+        Empty = [];
+        Append = List.append
+    }
+
+    let concatAll monoid xs =
+        Seq.fold (monoid.Append) monoid.Empty xs
+
+
+module MapUtils =
+    let union (monoid: 'a Monoid.t) ma mb =
+        let folder acc k v = Map.change k (fun oldV -> Some(monoid.Append (Option.defaultValue monoid.Empty oldV) v)) acc
+        Map.fold folder ma mb
+        
+    let singleton k v = Map.add k v Map.empty
+
+
+
 module ParseUtils = 
     open FParsec
 
