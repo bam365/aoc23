@@ -10,6 +10,12 @@ let readLines () =
     |> Seq.initInfinite
     |> Seq.takeWhile ((<>) null)
 
+let readStr () = 
+    readLines ()
+    |> String.concat "\n"
+
+let readChars () = readStr () |> Seq.toList
+
 let seqSum (xs: seq<int>)= Seq.fold (fun acc v -> acc + v) 0 xs
 
 module ParseUtils = 

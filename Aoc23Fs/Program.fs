@@ -52,3 +52,5 @@ match args.[1] with
     | "1_2" -> day01Part2()
     | "2" -> Day02.part1 ()
     | "2_2" -> Day02.part2 ()
+    | "3" -> Day03.part1 ()
+    | _ -> failwith "lol nope"
